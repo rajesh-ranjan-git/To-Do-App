@@ -122,3 +122,10 @@ body {
     display: none;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
+
+.itemDesc {
+    width: 100%;
+    padding: 0.8rem;
+    color: rgb(16, 49, 156);
+    font-size: 1.2rem;
+}
