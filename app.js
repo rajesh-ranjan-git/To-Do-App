@@ -13,7 +13,6 @@ let editTitleFunc = (title, editTitle, editTitleInput, itemTitleInputValue) => {
         title.innerHTML = `${itemTitleInputValue}`;
         title.style.display = "block";
         editTitleInput.style.display = "none";
-        console.log(editTitleInput);
         editTitle.innerHTML = "Edit Title";
         editTitle.addEventListener ("click", () => {
             editTitleFunc(title, editTitle, editTitleInput, itemTitleInputValue);
