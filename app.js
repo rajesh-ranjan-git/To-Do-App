@@ -3,37 +3,56 @@ let addItem = document.querySelector(".addItem");
 let reset = document.querySelector(".reset");
 let deleteAll = document.querySelector(".deleteAll");
 let mainContent = document.querySelector(".mainContent");
+let storedItems = localStorage.getItem("storedItems");;
 
-let editTitleFunc = (title, editTitle, editTitleInput, itemTitleInputValue) => {
+let showItems = () => {
+    console.log("Hello");
+}
+
+let editTitleFunc = (title, editTitle, editTitleInput, itemTitleInputValue, storedItems) => {
     title.style.display = "none";
     editTitleInput.style.display = "block";
     editTitle.innerHTML = "Done";
+    let temp = itemTitleInputValue;
     editTitle.addEventListener ("click", () => {
         itemTitleInputValue = editTitleInput.value;
         title.innerHTML = `${itemTitleInputValue}`;
+        for (let i=0; i<storedItems.length; i++) {
+            if (storedItems[i].itemTitle == temp) {
+                storedItems[i].itemTitle = title.innerHTML;
+            }
+        }
+        localStorage.setItem("storedItems", JSON.stringify(storedItems));
         title.style.display = "block";
         editTitleInput.style.display = "none";
         editTitle.innerHTML = "Edit Title";
         editTitle.addEventListener ("click", () => {
-            editTitleFunc(title, editTitle, editTitleInput, itemTitleInputValue);
+            editTitleFunc(title, editTitle, editTitleInput, itemTitleInputValue, storedItems);
         });
     });
 }
 
-let addDescFunc = (addDesc, addDescText, itemDesc, itemDescContent, itemDescInput) => {
+let addDescFunc = (addDesc, addDescText, itemDesc, itemDescContent, itemDescInput, storedItems) => {
     addDescText = "Done";
     addDesc.innerHTML = `${addDescText}`;
     itemDesc.style.display = "block";
     itemDescContent.style.display = "none";
     itemDescInput.style.display = "block";
+    let temp = itemDescContent.innerHTML;
     addDesc.addEventListener ("click", () => {
         addDescText = "Edit Description";
         addDesc.innerHTML = `${addDescText}`;
         itemDescContent.innerHTML = `${itemDescInput.value}`;
+        for (let i=0; i<storedItems.length; i++) {
+            if (storedItems[i].itemDescription == temp) {
+                storedItems[i].itemDescription = itemDescContent.innerHTML;
+            }
+        }
+        localStorage.setItem("storedItems", JSON.stringify(storedItems));     
         itemDescContent.style.display = "block";
         itemDescInput.style.display = "none";
         addDesc.addEventListener ("click", () => {
-            addDescFunc(addDesc, addDescText, itemDesc, itemDescContent, itemDescInput);
+            addDescFunc(addDesc, addDescText, itemDesc, itemDescContent, itemDescInput, storedItems);
         });
     });
 }
@@ -42,9 +61,16 @@ addItem.addEventListener ("click", () => {
     let itemTitleInputValue = itemTitleInput.value;
     let editTitleText = "Edit Title";
     let addDescText = "Add Description";
+    storedItems = localStorage.getItem("storedItems");
     itemTitleInput.value = "";
 
     if (itemTitleInputValue == "") return;
+
+    if (storedItems == null) {
+        storedItems = [];
+    } else {
+        storedItems = JSON.parse(storedItems);
+    }
 
     let item = document.createElement("div");
     item.classList.add("item");
@@ -72,18 +98,27 @@ addItem.addEventListener ("click", () => {
     let itemDescInput = item.querySelector("#itemDescInput");
     let delItem = item.querySelector("#delItem");
 
+    let itemsObj = {
+        itemTitle : title.innerHTML,
+        itemDescription : itemDescContent.innerHTML
+    };
+
+    storedItems.push(itemsObj);
+
+    localStorage.setItem("storedItems", JSON.stringify(storedItems));
+
     editTitle.addEventListener ("click", () => {
-        editTitleFunc(title, editTitle, editTitleInput, itemTitleInputValue);
+        editTitleFunc(title, editTitle, editTitleInput, itemTitleInputValue, storedItems);
     });
 
     addDesc.addEventListener ("click", () => {
-        addDescFunc(addDesc, addDescText, itemDesc, itemDescContent, itemDescInput);
+        addDescFunc(addDesc, addDescText, itemDesc, itemDescContent, itemDescInput, storedItems);
     });
 
     delItem.addEventListener ("click", () => {
         mainContent.removeChild(item);
     });
-    
+
     mainContent.appendChild(item);
 });
 
