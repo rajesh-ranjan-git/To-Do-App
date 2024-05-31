@@ -61,6 +61,12 @@ body {
     flex-direction: column;
 }
 
+.mainContent h1 {
+    margin: 5rem;
+    color: rgba(46, 91, 240);
+    display: none;
+}
+
 .item {
     margin-top: 2rem;
     width: 45vw;
