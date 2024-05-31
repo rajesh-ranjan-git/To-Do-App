@@ -11,7 +11,7 @@ let showItems = () => {
     storedItems = JSON.parse(storedItems);
 
     if (storedItems == null || storedItems.length == 0) {
-        mainContent.innerHTML = "<h1>Lets start adding items...<h1>";
+        mainContent.innerHTML = "<h1>No items in your To-Do List yet.<br>Lets start adding items...<h1>";
         document.querySelector(".mainContent h1").style.display = "block";
     } else {
         mainContent.innerHTML = "";
@@ -117,7 +117,7 @@ let delItemFunc = (item, title, itemDescContent) => {
 
     if (storedItems.length == 0) {
         localStorage.clear(storedItems);
-        mainContent.innerHTML = "<h1>Lets start adding items...<h1>";
+        mainContent.innerHTML = "<h1>No items in your To-Do List yet.<br>Lets start adding items...<h1>";
     }
 }
 
@@ -153,6 +153,6 @@ reset.addEventListener ("click", () => {
 });
 
 deleteAll.addEventListener ("click", () => {
-    mainContent.innerHTML = "<h1>Lets start adding items...<h1>";
+    mainContent.innerHTML = "<h1>No items in your To-Do List yet.<br>Lets start adding items...<h1>";
     localStorage.clear(storedItems);
 });

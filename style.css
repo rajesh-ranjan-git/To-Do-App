@@ -68,6 +68,7 @@ body {
 .mainContent h1 {
     margin: 5rem;
     color: rgb(8, 45, 165);
+    text-align: center;
 }
 
 .item {
