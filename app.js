@@ -10,28 +10,15 @@ let storedItems = "";
 
 let showItems = (editTitleText, addDescText) => {
     let storedItems = localStorage.getItem("storedItems");
-    let item = "";
-    let title = "";
-    let editTitleInput = "";
-    let editTitle = "";
-    let addDesc = "";
-    let itemDesc = "";
-    let itemDescContent = "";
-    let itemDescInput = "";
-    let delItem = "";
     storedItems = JSON.parse(storedItems);
-
-    console.log(storedItems);
 
     if (storedItems == null || storedItems.length == 0) {
         mainContent.innerHTML = "<h1>Lets start adding items...<h1>";
         document.querySelector(".mainContent h1").style.display = "block";
     } else {
-        // if (document.querySelector(".mainContent h1").innerHTML == "Lets start adding items...") {
-        //     document.querySelector(".mainContent h1").style.display = "none";
-        // }
+        mainContent.innerHTML = "";
         for (let i=0; i<storedItems.length; i++) {
-            item = document.createElement("div");
+            let item = document.createElement("div");
             item.classList.add("item");
             item.innerHTML = `
                 <div class="itemTitle">
@@ -48,28 +35,31 @@ let showItems = (editTitleText, addDescText) => {
                     <textarea name="itemDescInput" id="itemDescInput">${storedItems[i].itemDescription}</textarea>
                 </div>`;
             mainContent.appendChild(item);
-        }
-        title = item.querySelector(".title");
-        editTitleInput = item.querySelector(".editTitleInput");
-        editTitle = item.querySelector(".editTitle");
-        addDesc = item.querySelector(".addDesc");
-        itemDesc = item.querySelector(".itemDesc");
-        itemDescContent = item.querySelector(".itemDescContent");
-        itemDescInput = item.querySelector("#itemDescInput");
-        delItem = item.querySelector("#delItem");
-    
-        editTitle.addEventListener ("click", () => {
-            editTitleFunc(title, editTitle, editTitleInput, storedItems);
-        });
-    
-        addDesc.addEventListener ("click", () => {
-            addDescFunc(addDesc, addDescText, itemDesc, itemDescContent, itemDescInput, storedItems);
-        });
-    
-        delItem.addEventListener ("click", () => {
-            mainContent.removeChild(item);
-        });       
-    }    
+            let title = item.querySelector(".title");
+            let editTitleInput = item.querySelector(".editTitleInput");
+            let editTitle = item.querySelector(".editTitle");
+            let addDesc = item.querySelector(".addDesc");
+            let itemDesc = item.querySelector(".itemDesc");
+            let itemDescContent = item.querySelector(".itemDescContent");
+            let itemDescInput = item.querySelector("#itemDescInput");
+            let delItem = item.querySelector("#delItem");
+        
+            editTitle.addEventListener ("click", () => {
+                editTitleFunc(title, editTitle, editTitleInput, storedItems);
+            });
+        
+            addDesc.addEventListener ("click", () => {
+                addDescFunc(addDesc, addDescText, itemDesc, itemDescContent, itemDescInput, storedItems);
+            });
+        
+            delItem.addEventListener ("click", () => {
+                mainContent.removeChild(item);
+                let temp = storedItems[i];
+                console.log(temp);
+                localStorage.removeItem("temp");
+            });
+        }    
+    }
 }
 
 let editTitleFunc = (title, editTitle, editTitleInput, storedItems) => {
@@ -152,5 +142,6 @@ reset.addEventListener ("click", () => {
 });
 
 deleteAll.addEventListener ("click", () => {
-    mainContent.innerHTML = "";
+    mainContent.innerHTML = "<h1>Lets start adding items...<h1>";
+    localStorage.clear(storedItems);
 });
