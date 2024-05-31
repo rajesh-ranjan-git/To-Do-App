@@ -33,6 +33,7 @@ let showItems = () => {
                     <textarea name="itemDescInput" id="itemDescInput">${storedItems[i].itemDescription}</textarea>
                 </div>`;
             mainContent.appendChild(item);
+            itemTitleInput.value = "";
             let title = item.querySelector(".title");
             let editTitleInput = item.querySelector(".editTitleInput");
             let editTitle = item.querySelector(".editTitle");
@@ -56,7 +57,7 @@ let showItems = () => {
             });
         
             delItem.addEventListener ("click", () => {
-                delItemFunc(item, storedItems, i);
+                delItemFunc(item, title, itemDescContent);
             });
         }    
     }
@@ -97,22 +98,27 @@ let addDescFunc = (addDesc, itemDesc, itemDescContent, itemDescInput, storedItem
     });
 }
 
-let delItemFunc = (item, storedItems, i) => {
-    let title = document.querySelector(".title").innerHTML;
-    // if (title == storedItems[i].itemTitle) {
-    //     mainContent.removeChild(item);
-    //     storedItems.splice(i, 1);
-    // }
-
-    for (j=0; j<storedItems.length; j++) {
-        if (title == storedItems[j].itemTitle) {
-            console.log(title, storedItems[j].itemTitle);
-            mainContent.removeChild(item);
+let delItemFunc = (item, title, itemDescContent) => {
+    let storedItems = localStorage.getItem("storedItems");
+    storedItems = JSON.parse(storedItems);
+    
+    for (let j=0; j<storedItems.length; j++) {
+        if (title.innerHTML == storedItems[j].itemTitle && itemDescContent.innerHTML == storedItems[j].itemDescription) {
             storedItems.splice(j, 1);
+            localStorage.setItem("storedItems", JSON.stringify(storedItems));
         }
     }
 
-    localStorage.setItem("storedItems", JSON.stringify(storedItems));
+    // if (storedItems.length == 0) {
+    //     localStorage.clear(storedItems);
+    // }
+
+    mainContent.removeChild(item);
+
+    if (storedItems.length == 0) {
+        localStorage.clear(storedItems);
+        mainContent.innerHTML = "<h1>Lets start adding items...<h1>";
+    }
 }
 
 addItem.addEventListener ("click", () => {
@@ -126,7 +132,7 @@ addItem.addEventListener ("click", () => {
 
     let itemTitleInputValue = itemTitleInput.value;
 
-    if (itemTitleInputValue == "") return;  
+    if (itemTitleInputValue == "") return;
 
     itemsObj = {
         itemTitle : itemTitleInputValue,
