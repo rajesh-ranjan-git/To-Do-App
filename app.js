@@ -3,12 +3,10 @@ let addItem = document.querySelector(".addItem");
 let reset = document.querySelector(".reset");
 let deleteAll = document.querySelector(".deleteAll");
 let mainContent = document.querySelector(".mainContent");
-let editTitleText = "Edit Title";
-let addDescText = "Add Description";
 let itemsObj = "";
 let storedItems = "";
 
-let showItems = (editTitleText, addDescText) => {
+let showItems = () => {
     let storedItems = localStorage.getItem("storedItems");
     storedItems = JSON.parse(storedItems);
 
@@ -25,8 +23,8 @@ let showItems = (editTitleText, addDescText) => {
                     <p class="title">${storedItems[i].itemTitle}</p>
                     <input class="editTitleInput" type="text" placeholder="${storedItems[i].itemTitle}">
                     <div>
-                        <button class="editTitle">${editTitleText}</button>
-                        <button class="addDesc">${addDescText}</button>
+                        <button class="editTitle">Edit Title</button>
+                        <button class="addDesc">Add Description</button>
                         <svg id="delItem" width="2.5rem" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 6H22V8H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V8H2V6H7V3C7 2.44772 7.44772 2 8 2H16C16.5523 2 17 2.44772 17 3V6ZM9 11V17H11V11H9ZM13 11V17H15V11H13ZM9 4V6H15V4H9Z"></path></svg>
                     </div>
                 </div>
@@ -43,71 +41,78 @@ let showItems = (editTitleText, addDescText) => {
             let itemDescContent = item.querySelector(".itemDescContent");
             let itemDescInput = item.querySelector("#itemDescInput");
             let delItem = item.querySelector("#delItem");
+
+            if (storedItems[i].itemDescription !="") {
+                itemDesc.style.display = "block";
+                addDesc.innerHTML = "Edit Description";
+            }
         
             editTitle.addEventListener ("click", () => {
-                editTitleFunc(title, editTitle, editTitleInput, storedItems);
+                editTitleFunc(title, editTitle, editTitleInput, storedItems, i);
             });
         
             addDesc.addEventListener ("click", () => {
-                addDescFunc(addDesc, addDescText, itemDesc, itemDescContent, itemDescInput, storedItems);
+                addDescFunc(addDesc, itemDesc, itemDescContent, itemDescInput, storedItems, i);
             });
         
             delItem.addEventListener ("click", () => {
-                mainContent.removeChild(item);
-                let temp = storedItems[i];
-                console.log(temp);
-                localStorage.removeItem("temp");
+                delItemFunc(item, storedItems, i);
             });
         }    
     }
 }
 
-let editTitleFunc = (title, editTitle, editTitleInput, storedItems) => {
+let editTitleFunc = (title, editTitle, editTitleInput, storedItems, i) => {
     title.style.display = "none";
     editTitleInput.style.display = "block";
     editTitle.innerHTML = "Done";
-    let temp = storedItems[i].itemTitle;
     editTitle.addEventListener ("click", () => {
         storedItems[i].itemTitle = editTitleInput.value;
         title.innerHTML = `${storedItems[i].itemTitle}`;
-        for (let j=0; j<storedItems.length; j++) {
-            if (storedItems[j].itemTitle == temp) {
-                storedItems[j].itemTitle = title.innerHTML;
-            }
-        }
         localStorage.setItem("storedItems", JSON.stringify(storedItems));
         title.style.display = "block";
         editTitleInput.style.display = "none";
         editTitle.innerHTML = "Edit Title";
         editTitle.addEventListener ("click", () => {
-            editTitleFunc(title, editTitle, editTitleInput, storedItems);
+            editTitleFunc(title, editTitle, editTitleInput, storedItems, i);
         });
     });
 }
 
-let addDescFunc = (addDesc, addDescText, itemDesc, itemDescContent, itemDescInput, storedItems) => {
-    addDescText = "Done";
-    addDesc.innerHTML = `${addDescText}`;
+let addDescFunc = (addDesc, itemDesc, itemDescContent, itemDescInput, storedItems, i) => {
+    addDesc.innerHTML = "Done";
     itemDesc.style.display = "block";
     itemDescContent.style.display = "none";
     itemDescInput.style.display = "block";
-    let temp = itemDescContent.innerHTML;
     addDesc.addEventListener ("click", () => {
-        addDescText = "Edit Description";
-        addDesc.innerHTML = `${addDescText}`;
+        addDesc.innerHTML = "Edit Description";
         itemDescContent.innerHTML = `${itemDescInput.value}`;
-        for (let j=0; j<storedItems.length; j++) {
-            if (storedItems[j].itemDescription == temp) {
-                storedItems[j].itemDescription = itemDescContent.innerHTML;
-            }
-        }
+        storedItems[i].itemDescription = itemDescInput.value;
         localStorage.setItem("storedItems", JSON.stringify(storedItems));     
         itemDescContent.style.display = "block";
         itemDescInput.style.display = "none";
         addDesc.addEventListener ("click", () => {
-            addDescFunc(addDesc, addDescText, itemDesc, itemDescContent, itemDescInput, storedItems);
+            addDescFunc(addDesc, itemDesc, itemDescContent, itemDescInput, storedItems, i);
         });
     });
+}
+
+let delItemFunc = (item, storedItems, i) => {
+    let title = document.querySelector(".title").innerHTML;
+    // if (title == storedItems[i].itemTitle) {
+    //     mainContent.removeChild(item);
+    //     storedItems.splice(i, 1);
+    // }
+
+    for (j=0; j<storedItems.length; j++) {
+        if (title == storedItems[j].itemTitle) {
+            console.log(title, storedItems[j].itemTitle);
+            mainContent.removeChild(item);
+            storedItems.splice(j, 1);
+        }
+    }
+
+    localStorage.setItem("storedItems", JSON.stringify(storedItems));
 }
 
 addItem.addEventListener ("click", () => {
@@ -132,10 +137,10 @@ addItem.addEventListener ("click", () => {
 
     localStorage.setItem("storedItems", JSON.stringify(storedItems));
 
-    showItems(editTitleText, addDescText);
+    showItems();
 });
 
-showItems(editTitleText, addDescText);
+showItems();
 
 reset.addEventListener ("click", () => {
     itemTitleInput.value = "";
