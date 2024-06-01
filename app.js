@@ -108,11 +108,7 @@ let delItemFunc = (item, title, itemDescContent) => {
             localStorage.setItem("storedItems", JSON.stringify(storedItems));
         }
     }
-
-    // if (storedItems.length == 0) {
-    //     localStorage.clear(storedItems);
-    // }
-
+    
     mainContent.removeChild(item);
 
     if (storedItems.length == 0) {

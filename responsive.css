@@ -1,0 +1,61 @@
+@media screen and (max-width: 1600px) {
+
+    .itemTitleInput {
+        width: 20vw;
+    }
+
+    .top-content>button {
+        width: auto;
+    }
+
+}
+
+@media screen and (max-width: 1400px) {
+
+    .itemTitleInput {
+        width: 30vw;
+    }
+
+    .item {
+        width: 65vw;
+    }
+
+}
+
+@media screen and (max-width: 1000px) {
+
+    * {
+        font-size: 0.8rem;
+    }
+
+    .top-content {
+        justify-content: space-around;
+    }
+
+    .itemTitleInput {
+        width: 40vw;
+    }
+
+    .item {
+        width: 90%;
+    }
+
+}
+
+@media screen and (max-width: 700px) {
+
+    * {
+        font-size: 0.7rem;
+    }
+
+    .top-content {
+        height: auto;
+        flex-wrap: wrap;
+    }
+
+    .itemTitleInput {
+        width: 100%;
+    }
+
+}
+  
