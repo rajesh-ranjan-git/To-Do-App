@@ -2,9 +2,9 @@
 
 <h1>Rajesh Ranjan (Author)</h1>
 
-This is a ToDo App created using Vanilla JS.
+This is a To Do App created using Vanilla JS.
 
-Yu can add todo items and description for it which can be edited and deleted as per your requirements.
+You can add todo items and description for it which can be edited and deleted as per your requirements.
 
 Tech Stacks used :
 
