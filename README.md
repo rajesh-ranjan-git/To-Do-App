@@ -1,4 +1,4 @@
-# ToDo
+# To-Do-App
 
 <h1>Rajesh Ranjan (Author)</h1>
 
@@ -14,6 +14,6 @@ Tech Stacks used :
 > Multiple functionalities like Add, Edit, Delete todo items <br>
 > Editing available for todo title and description both <br>
 > LocalStorage implemented to keep track on browser locally<br>
-> Deployed at https://tictactoe-vanilla-js.netlify.app <br>
+> Deployed at https://to-do-vanillajs.netlify.app <br>
 
 ---
